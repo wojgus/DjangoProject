@@ -5,6 +5,9 @@ import re
 from viewer.models import Genre
 from django.core.exceptions import ValidationError
 from viewer.validators import PastMonthField, capitalized_validator
+from logging import getLogger
+
+LOGGER = getLogger()
 
 
 class MovieForm(Form):
@@ -21,6 +24,7 @@ class MovieForm(Form):
 
     def clean(self):
         result = super().clean()
+        LOGGER.warning('tu jestem')
         if result['genre'].name == 'comedy' and result['rating'] > 7:
             self.add_error('genre', '')
             self.add_error('rating', '')
@@ -28,4 +32,5 @@ class MovieForm(Form):
                 'Commedies aren\'t so good to be over 7'
 
             )
+
         return result
