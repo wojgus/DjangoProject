@@ -7,9 +7,34 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <table>
-            {{ form }}
-        </table>
+        {{ form.non_field_errors }}
+        <div class="form-group col-md-4">
+            {{ form.title.errors }}
+            <label for="{{ form.title.id_for_label }}">Tytuł </label>
+            {{ form.title }}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                {{ form.title.errors }}
+                <label for="{{ form.title.id_for_label }}">Gatunek </label>
+                {{ form.genre }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.title.errors }}
+                <label for="{{ form.rating.id_for_label }}">Ocena </label>
+                {{ form.rating }}
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.title.errors }}
+                <label for="{{ form.released.id_for_label }}">Released </label>
+                {{ form.released }}
+            </div>
+            </div>
+            <div class="form-group col-md-4">
+                {{ form.description.errors }}
+                <label for="{{ form.description.id_for_label }}">Opis</label>
+                {{ form.description }}
+            </div>
         <input type="submit" value="Wyślij" class="btn btn-primary">
     </form>
 {% endblock %}
