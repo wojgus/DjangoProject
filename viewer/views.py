@@ -10,6 +10,11 @@ import datetime
 LOGGER = getLogger()
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+
+
+class SubmittableLoginView(LoginView):
+    template_name = 'form.html'
 
 
 @login_required
@@ -24,13 +29,13 @@ def generate_demo(request):
 
 
 # Create your views here.
-class MoviesView(LoginRequiredMixin,ListView):
+class MoviesView(LoginRequiredMixin, ListView):
     template_name = "movies.html"
     model = Movie
 
 
-class MovieCreateView(LoginRequiredMixin,CreateView):
-    template_name = 'form.html'
+class MovieCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     success_url = reverse_lazy('movie_create')
 
@@ -39,8 +44,8 @@ class MovieCreateView(LoginRequiredMixin,CreateView):
         return super().form_invalid(form)
 
 
-class MovieUpdateView(LoginRequiredMixin,UpdateView):
-    template_name = 'form.html'
+class MovieUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'formAddEditMovie.html'
     form_class = MovieForm
     success_url = reverse_lazy('index')
     model = Movie
@@ -50,7 +55,7 @@ class MovieUpdateView(LoginRequiredMixin,UpdateView):
         return super().form_invalid(form)
 
 
-class MovieDeleteView(LoginRequiredMixin,DeleteView):
+class MovieDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete_movie.html'
     success_url = reverse_lazy('index')
     model = Movie
