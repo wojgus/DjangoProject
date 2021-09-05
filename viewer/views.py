@@ -1,10 +1,24 @@
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from viewer.models import Movie
 from viewer.forms import MovieForm
 from logging import getLogger
+import datetime
 
 LOGGER = getLogger()
+
+
+@login_required
+def generate_demo(request):
+    our_get = request.GET.get('name', '')
+    return render(
+        request, template_name="demo.html",
+        context={'our_get': our_get,
+                 'list': ['piwerwszy', 'drugi', 'trzeci', 'czwarty'],
+                 'nasza_data': datetime.datetime.now()}
+    )
 
 
 # Create your views here.
@@ -32,6 +46,7 @@ class MovieUpdateView(UpdateView):
     def form_invalid(self, form):
         LOGGER.warning('User provided invalid data when updating')
         return super().form_invalid(form)
+
 
 class MovieDeleteView(DeleteView):
     template_name = 'delete_movie.html'
